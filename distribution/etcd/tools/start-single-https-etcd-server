@@ -1,0 +1,5 @@
+#!/bin/bash
+etcd --name infra0 --data-dir /etcd-temp/infra0\
+ --cert-file=/root/cfssl/server.pem --key-file=/root/cfssl/server-key.pem\
+ --advertise-client-urls=https://0.0.0.0:2379\
+ --listen-client-urls=https://0.0.0.0:2379

@@ -1,0 +1,37 @@
+package HelloService
+
+import (
+	context "context"
+	"io"
+	au "rpc/Protobuf/token-auth/auth"
+)
+
+type HelloServiceImpl struct{ auth *au.Authentication }
+
+func (p *HelloServiceImpl) Hello(ctx context.Context, args *String) (*String, error) {
+	if err := p.auth.Auth(ctx); err != nil {
+		return nil, err
+	}
+
+	reply := &String{Value: "hello" + args.GetValue()}
+	return reply, nil
+}
+
+func (p *HelloServiceImpl) Channel(stream HelloService_ChannelServer) error {
+
+	for {
+		args, err := stream.Recv()
+		if err != nil {
+			if err == io.EOF {
+				return nil
+			}
+		}
+
+		reply := &String{Value: "hello" + args.GetValue()}
+
+		err = stream.Send(reply)
+		if err != nil {
+			return err
+		}
+	}
+}

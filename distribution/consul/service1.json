@@ -1,0 +1,10 @@
+{
+    "service": {
+        "id": "service1",
+        "name": "firstservice",
+        "tags": [
+            "dev"
+        ],
+        "port": 80
+    }
+}
